@@ -10,7 +10,7 @@ public class mParent : MonoBehaviour
         Idle,
         Ground,
         Hand,
-        Back
+        Back,
     }
 
     private Mode m_Mode;
