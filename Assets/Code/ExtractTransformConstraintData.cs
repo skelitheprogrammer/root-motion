@@ -9,7 +9,7 @@ namespace Code
         public Vector3 position;
         public Quaternion rotation;
 
-        public bool IsValid() => bone != null;
+        public bool IsValid() => bone is not null;
         public void SetDefaultValues()
         {
             bone = null;

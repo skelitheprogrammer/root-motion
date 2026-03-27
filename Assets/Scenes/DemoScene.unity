@@ -40012,6 +40012,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 376482972066295713, guid: d20643fcb66b55c41a0695ea3b2a6884,
+        type: 3}
+      propertyPath: m_Data.m_MaintainTargetPositionOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 376482972066295713, guid: d20643fcb66b55c41a0695ea3b2a6884,
+        type: 3}
+      propertyPath: m_Data.m_MaintainTargetRotationOffset
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2591669341934948451, guid: d20643fcb66b55c41a0695ea3b2a6884,
         type: 3}
       propertyPath: m_NormalizedViewPortRect.width
@@ -40021,6 +40031,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_NormalizedViewPortRect.height
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4922887963445782434, guid: d20643fcb66b55c41a0695ea3b2a6884,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5902359228068655066, guid: d20643fcb66b55c41a0695ea3b2a6884,
+        type: 3}
+      propertyPath: _footUp.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5902359228068655066, guid: d20643fcb66b55c41a0695ea3b2a6884,
+        type: 3}
+      propertyPath: _footUp.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5902359228068655066, guid: d20643fcb66b55c41a0695ea3b2a6884,
+        type: 3}
+      propertyPath: _footUp.z
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5902359228068655066, guid: d20643fcb66b55c41a0695ea3b2a6884,
         type: 3}
@@ -40034,8 +40064,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5902359228068655066, guid: d20643fcb66b55c41a0695ea3b2a6884,
         type: 3}
-      propertyPath: _maxRotationAngle
-      value: 90
+      propertyPath: _footForwardAxis.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5902359228068655066, guid: d20643fcb66b55c41a0695ea3b2a6884,
         type: 3}
@@ -40051,6 +40081,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7640698406259378530, guid: d20643fcb66b55c41a0695ea3b2a6884,
+        type: 3}
+      propertyPath: m_Data.m_MaintainTargetPositionOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7640698406259378530, guid: d20643fcb66b55c41a0695ea3b2a6884,
+        type: 3}
+      propertyPath: m_Data.m_MaintainTargetRotationOffset
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7773957105652852614, guid: d20643fcb66b55c41a0695ea3b2a6884,
         type: 3}
