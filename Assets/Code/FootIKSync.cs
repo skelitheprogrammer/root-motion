@@ -1,46 +1,63 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+
 namespace Code
 {
     public class FootIKSync : MonoBehaviour
     {
         [SerializeField] private TwoBoneIKConstraint _ik;
-        [SerializeField] private MultiParentConstraint _parent;
+
         [SerializeField] private Animator _animator;
-        [SerializeField] private float _offset;
-        public float weight;
+        [SerializeField] private ExtractTransformConstraint _preIKFootCapture;
+        
+        [SerializeField] private LayerMask _groundMask = -1;
+
+        [SerializeField] private float _raycastOffset = 0.05f;
+        [SerializeField] private float _plantedThreshold = 0.03f;
+        [SerializeField] private float _smoothTime = 0.02f;
+
+        private Vector3 _storedOffset;
+        private bool _wasPlanted;
+        private float _currentWeight;
+        private float _weightVelocity;
 
         private void LateUpdate()
         {
-            float legLength;
-            float distance;
-            Vector3 correctedPos;
-            RaycastHit info;
-            bool hit;
+            Vector3 rawTipPos = _preIKFootCapture.data.position;
+            float footBottomHeight = _animator.leftFeetBottomHeight;
 
-            legLength = Vector3.Distance(_ik.data.tip.position, _ik.data.root.position);
-            distance = legLength + _animator.leftFeetBottomHeight + _offset;
-            Vector3 direction = Vector3.down;
-            correctedPos = _ik.data.tip.position + Vector3.up * legLength;
-            hit = Physics.Raycast(correctedPos, direction, out info, distance);
-            Debug.DrawRay(correctedPos, direction * distance, Color.magenta);
+            float legLength = Vector3.Distance(_ik.data.tip.position, _ik.data.root.position);
+            float rayDistance = legLength + footBottomHeight + _raycastOffset;
+            Vector3 rayOrigin = rawTipPos + Vector3.up * legLength;
 
+            bool hit = Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hitInfo, rayDistance, _groundMask);
+            Debug.DrawRay(rayOrigin, Vector3.down * rayDistance, hit ? Color.green : Color.red);
 
             if (!hit)
             {
-                _ik.data.target.position = _ik.data.tip.position;
-                _ik.weight = 0;
+                _ik.weight = 0f;
                 return;
             }
 
-            _ik.data.target.position = info.point + Vector3.up * _animator.leftFeetBottomHeight;
-            float actualDistance = Vector3.Distance(_ik.data.tip.position + Vector3.down * _animator.leftFeetBottomHeight, info.point);
-            Debug.DrawRay(_ik.data.tip.position, Vector3.down * _animator.leftFeetBottomHeight, Color.green);
-            float ratio = 1 - (actualDistance / _animator.leftFeetBottomHeight);
-            Debug.Log($"{actualDistance} {ratio}");
+            Vector3 desiredGroundPos = hitInfo.point + Vector3.up * footBottomHeight;
 
-            _ik.weight = ratio;
+            Vector3 footBottom = rawTipPos + Vector3.down * footBottomHeight;
+            float distanceToGround = footBottom.y - hitInfo.point.y;
+            bool isPlanted = distanceToGround <= _plantedThreshold;
 
+            if (isPlanted)
+            {
+                _storedOffset = desiredGroundPos - rawTipPos;
+            }
+
+            _ik.data.target.position = rawTipPos + _storedOffset;
+
+            float targetWeight = isPlanted
+                ? 1f
+                : 0f;
+
+            _currentWeight = Mathf.SmoothDamp(_currentWeight, targetWeight, ref _weightVelocity, _smoothTime);
+            _ik.weight = _currentWeight;
         }
     }
 }

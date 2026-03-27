@@ -5,6 +5,7 @@ using UnityEditor;
 using System;
 using System.IO;
 using System.Reflection;
+using Samples.Animation_Rigging._1._2._0.Animation_Rigging_Constraint_Samples.Info.Scripts;
 
 [CustomEditor(typeof(Readme))]
 [InitializeOnLoad]
