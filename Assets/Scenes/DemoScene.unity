@@ -39907,41 +39907,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 424480097235066744, guid: d20643fcb66b55c41a0695ea3b2a6884,
-        type: 3}
-      propertyPath: m_Data.m_SourceObjects.m_Item0.weight
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 690007931194309611, guid: d20643fcb66b55c41a0695ea3b2a6884,
-        type: 3}
-      propertyPath: m_Data.m_MaintainPositionOffset
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1718219232992150790, guid: d20643fcb66b55c41a0695ea3b2a6884,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.2003249
-      objectReference: {fileID: 0}
-    - target: {fileID: 1718219232992150790, guid: d20643fcb66b55c41a0695ea3b2a6884,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.0012030602
-      objectReference: {fileID: 0}
-    - target: {fileID: 2259007872965919106, guid: d20643fcb66b55c41a0695ea3b2a6884,
-        type: 3}
-      propertyPath: m_Data.m_SourceObjects.m_Item0.weight
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5693857463505196252, guid: d20643fcb66b55c41a0695ea3b2a6884,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.063237
-      objectReference: {fileID: 0}
-    - target: {fileID: 5693857463505196252, guid: d20643fcb66b55c41a0695ea3b2a6884,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.02332306
-      objectReference: {fileID: 0}
     - target: {fileID: 7108710523350850830, guid: d20643fcb66b55c41a0695ea3b2a6884,
         type: 3}
       propertyPath: m_Name
@@ -39996,16 +39961,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8102057179709273882, guid: d20643fcb66b55c41a0695ea3b2a6884,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.34350204
-      objectReference: {fileID: 0}
-    - target: {fileID: 8102057179709273882, guid: d20643fcb66b55c41a0695ea3b2a6884,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.0076932907
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
