@@ -68,14 +68,7 @@ namespace Code
             {
                 _storedPosOffset = desiredPos - rawTipPos;
                 Quaternion targetRotOffset = Quaternion.Inverse(rawTipRot) * desiredRot;
-                if (_rotationSmoothing > 0f)
-                {
-                    _currentRotOffset = Quaternion.Slerp(_currentRotOffset, targetRotOffset, Time.deltaTime * _rotationSmoothing);
-                }
-                else
-                {
-                    _currentRotOffset = targetRotOffset;
-                }
+                _currentRotOffset = _rotationSmoothing > 0f ? Quaternion.Slerp(_currentRotOffset, targetRotOffset, Time.deltaTime * _rotationSmoothing) : targetRotOffset;
 
                 _storedRotOffset = _currentRotOffset;
             }
@@ -133,14 +126,15 @@ namespace Code
 
             if (count < 2)
             {
-                if (Physics.Raycast(footPos + Vector3.up * 0.1f, Vector3.down, out RaycastHit fallback, rayLen, _groundMask))
+                if (!Physics.Raycast(footPos + Vector3.up * 0.1f, Vector3.down, out RaycastHit fallback, rayLen, _groundMask))
                 {
-                    Vector3 up = footRot * _footUpAxis;
-                    Quaternion align = Quaternion.FromToRotation(up, fallback.normal);
-                    return align * footRot;
+                    return footRot;
                 }
 
-                return footRot;
+                Vector3 up = footRot * _footUpAxis;
+                Quaternion align = Quaternion.FromToRotation(up, fallback.normal);
+                return align * footRot;
+
             }
 
             Vector3 center = Vector3.zero;
