@@ -23,7 +23,6 @@ public class MovementDataSO : ScriptableObject
     public float standHeight = 2f;
     public float crouchTransitionSpeed = 10f;
     public float baseCarryWeight = 0f;
-    public float maxCarryWeight = 80f;
     public AnimationCurve weightSpeedCurve = AnimationCurve.Linear(0f, 1f, 80f, 0.3f);
     public AnimationCurve weightAccelCurve = AnimationCurve.Linear(0f, 1f, 80f, 0.2f);
     public float maxStamina = 100f;

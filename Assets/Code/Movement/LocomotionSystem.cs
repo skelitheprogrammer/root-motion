@@ -4,9 +4,9 @@
 public class LocomotionSystem : MonoBehaviour
 {
     [SerializeField] private MovementDataSO data;
-    private PlayerInputHandler _input;
 
     private CharacterController _controller;
+    private PlayerInputHandler _input;
     private Motor _motor;
     private float _currentHeight;
     private float _currentStamina;
@@ -22,7 +22,7 @@ public class LocomotionSystem : MonoBehaviour
     {
         _controller = GetComponent<CharacterController>();
         _input = GetComponent<PlayerInputHandler>();
-        _motor = new(data);
+        _motor = new Motor(data);
         _currentStamina = data.maxStamina;
         _currentHeight = data.standHeight;
         _controller.height = _currentHeight;
@@ -56,7 +56,7 @@ public class LocomotionSystem : MonoBehaviour
 
         float staminaPercent = _currentStamina / data.maxStamina;
         MovementState state = _motor.Tick(Time.deltaTime, desiredDirection, _input.JumpPressedThisFrame, isSprinting,
-            isCrouching, isGrounded, groundNormal, staminaPercent, out bool sprintAvailable);
+                                          isCrouching, isGrounded, groundNormal, staminaPercent, out bool sprintAvailable);
 
         if (isSprinting && state.HorizontalVelocity.magnitude > 0.1f && isGrounded)
         {
@@ -68,7 +68,6 @@ public class LocomotionSystem : MonoBehaviour
         {
             _currentStamina += data.staminaRegenRate * Time.deltaTime;
         }
-
         _currentStamina = Mathf.Clamp(_currentStamina, 0f, data.maxStamina);
 
         Vector3 movement = new Vector3(state.HorizontalVelocity.x, state.VerticalVelocity, state.HorizontalVelocity.z) * Time.deltaTime;
@@ -87,8 +86,7 @@ public class LocomotionSystem : MonoBehaviour
     {
         normal = Vector3.up;
         Vector3 footPos = transform.position + Vector3.down * (_controller.height * 0.5f);
-        if (Physics.SphereCast(footPos + Vector3.up * data.groundCheckDistance, data.groundCheckRadius, Vector3.down, out RaycastHit hit, data.groundCheckDistance * 2f,
-                data.groundLayers))
+        if (Physics.SphereCast(footPos + Vector3.up * data.groundCheckDistance, data.groundCheckRadius, Vector3.down, out RaycastHit hit, data.groundCheckDistance * 2f, data.groundLayers))
         {
             float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
             if (slopeAngle <= data.slopeLimit)
@@ -97,7 +95,6 @@ public class LocomotionSystem : MonoBehaviour
                 return true;
             }
         }
-
         return false;
     }
 

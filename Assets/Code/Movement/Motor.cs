@@ -16,8 +16,7 @@ public class Motor
     }
 
     public MovementState Tick(float deltaTime, Vector3 desiredDirection, bool jumpRequested, bool isSprinting,
-        bool isCrouching, bool isGrounded, Vector3 groundNormal,
-        float staminaPercent, out bool canSprint)
+        bool isCrouching, bool isGrounded, Vector3 groundNormal, float staminaPercent, out bool canSprint)
     {
         float baseMaxSpeed = isCrouching ? _data.maxCrouchSpeed : (isSprinting ? _data.maxSprintSpeed : _data.maxWalkSpeed);
         float weightSpeedMod = _data.weightSpeedCurve.Evaluate(_data.baseCarryWeight);
@@ -38,7 +37,9 @@ public class Motor
         _horizontalVelocity = newHorizontal;
         _verticalVelocity = newVertical;
 
-        return new MovementState(newHorizontal, newVertical, isGrounded, groundNormal, speedNorm, jumpRequested, isJumping, maxSpeed, isCrouching);
+        return new MovementState(newHorizontal, newVertical, isGrounded, speedNorm, jumpRequested, isJumping,
+            maxSpeed, isCrouching, isSprinting,
+            _data.maxWalkSpeed, _data.maxSprintSpeed, _data.maxCrouchSpeed);
     }
 
     private Vector3 UpdateHorizontal(Vector3 current, Vector3 desired, float maxSpeed, float accelRate, float decelRate, bool grounded, float dt)
