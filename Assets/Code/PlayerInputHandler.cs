@@ -12,7 +12,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void Awake()
     {
-        _inputActions = new PlayerInputs();
+        _inputActions = new();
         _inputActions.Enable();
     }
 

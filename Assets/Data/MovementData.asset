@@ -21,7 +21,7 @@ MonoBehaviour:
   counterStrafeMultiplier: 5
   lateralDeceleration: 30
   airControl: 0.2
-  turnSmoothing: 0.05
+  turnSmoothing: 0.02
   jumpHeight: 2.5
   gravity: -9.81
   groundCheckRadius: 0.2
@@ -34,7 +34,6 @@ MonoBehaviour:
   standHeight: 2
   crouchTransitionSpeed: 10
   baseCarryWeight: 0
-  maxCarryWeight: 80
   weightSpeedCurve:
     serializedVersion: 2
     m_Curve:

@@ -3157,30 +3157,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1819814639511587074, guid: ee6dc033c9cff574dafec62eacfb2f5a,
+    - target: {fileID: 2327818553355724887, guid: ee6dc033c9cff574dafec62eacfb2f5a,
         type: 3}
       propertyPath: m_Weight
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3627124110241890632, guid: ee6dc033c9cff574dafec62eacfb2f5a,
+    - target: {fileID: 5317673942632679877, guid: ee6dc033c9cff574dafec62eacfb2f5a,
         type: 3}
-      propertyPath: cameraController
-      value: 
-      objectReference: {fileID: 1760201671}
-    - target: {fileID: 3766527524084574334, guid: ee6dc033c9cff574dafec62eacfb2f5a,
-        type: 3}
-      propertyPath: _cameraHolder
-      value: 
-      objectReference: {fileID: 312006532}
-    - target: {fileID: 6667205288811275987, guid: ee6dc033c9cff574dafec62eacfb2f5a,
-        type: 3}
-      propertyPath: m_Height
-      value: 1.72
-      objectReference: {fileID: 0}
-    - target: {fileID: 6667205288811275987, guid: ee6dc033c9cff574dafec62eacfb2f5a,
-        type: 3}
-      propertyPath: m_Center.y
-      value: 0.84
+      propertyPath: m_Weight
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7247162626405955364, guid: ee6dc033c9cff574dafec62eacfb2f5a,
         type: 3}
@@ -11832,12 +11817,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5412017221204367677, guid: abe3d47b915ca924a9e06dd6d3321396,
     type: 3}
   m_PrefabInstance: {fileID: 311455433}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &312006532 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7757495428816031581, guid: ee6dc033c9cff574dafec62eacfb2f5a,
-    type: 3}
-  m_PrefabInstance: {fileID: 85423845}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &312306261
 PrefabInstance:
@@ -63603,18 +63582,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1759612392}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1760201671 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3766527524084574334, guid: ee6dc033c9cff574dafec62eacfb2f5a,
-    type: 3}
-  m_PrefabInstance: {fileID: 85423845}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed61ce3c4c0847269a311533638a90ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1760313409
 PrefabInstance:
   m_ObjectHideFlags: 0
