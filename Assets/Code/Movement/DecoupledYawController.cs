@@ -1,6 +1,5 @@
 ﻿using Code;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class DecoupledYawController : MonoBehaviour
 {
@@ -8,15 +7,13 @@ public class DecoupledYawController : MonoBehaviour
     [SerializeField] private PlayerInputHandler _inputs;
 
     [SerializeField] private float _enterThreshold = 90f;
-    [SerializeField] private float _rotationSpeed = 600f;
+    [SerializeField] private float _rotationTime = 0.25f; // Seconds to complete idle turn
     [SerializeField] private float _completionDeadzone = 1.5f;
-    [SerializeField] private float _movementAlignSpeed = 250f;
     [SerializeField] private float _movementInputDeadzone = 0.01f;
 
     private float _cameraWorldYaw;
     private float _bodyWorldYaw;
     private bool _isInterpolating;
-    private bool _isMoving;
 
     private void Start()
     {
@@ -34,14 +31,9 @@ public class DecoupledYawController : MonoBehaviour
         _cameraWorldYaw += inputDelta;
 
         bool isMoving = movementInputMagnitude > _movementInputDeadzone;
-
-        if (!isMoving && movementInputMagnitude > _movementInputDeadzone)
-        {
-            _isMoving = true;
-        }
         float delta = Mathf.DeltaAngle(_bodyWorldYaw, _cameraWorldYaw);
 
-        if (_isMoving)
+        if (isMoving)
         {
             _bodyWorldYaw = _cameraWorldYaw;
             _isInterpolating = false;
@@ -55,8 +47,8 @@ public class DecoupledYawController : MonoBehaviour
 
             if (_isInterpolating)
             {
-                _bodyWorldYaw = Mathf.MoveTowardsAngle(_bodyWorldYaw, _cameraWorldYaw, _rotationSpeed * deltaTime);
-
+                float requiredSpeed = Mathf.Abs(delta) / _rotationTime;
+                _bodyWorldYaw = Mathf.MoveTowardsAngle(_bodyWorldYaw, _cameraWorldYaw, requiredSpeed * deltaTime);
 
                 if (Mathf.Abs(Mathf.DeltaAngle(_bodyWorldYaw, _cameraWorldYaw)) < _completionDeadzone)
                 {
@@ -79,6 +71,5 @@ public class DecoupledYawController : MonoBehaviour
     }
 
     public float CameraWorldYaw => _cameraWorldYaw;
-
     public float AngleDelta => Mathf.DeltaAngle(_bodyWorldYaw, _cameraWorldYaw);
 }

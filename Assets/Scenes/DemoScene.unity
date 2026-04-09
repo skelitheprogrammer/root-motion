@@ -23175,12 +23175,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9253622988649b6a359869f54a8c7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraYawTransform: {fileID: 2074018870}
-  targetRotation: {fileID: 2130472620}
-  enterThreshold: 45
-  exitThreshold: 35
-  rotationSmoothTime: 0.12
-  maxRotationSpeed: 400
+  _cameraYawPivot: {fileID: 2074018870}
+  _inputs: {fileID: 583944231}
+  _enterThreshold: 90
+  _rotationSpeed: 600
+  _completionDeadzone: 1.5
+  _movementAlignSpeed: 250
+  _movementInputDeadzone: 0.01
 --- !u!1001 &584159865
 PrefabInstance:
   m_ObjectHideFlags: 0
