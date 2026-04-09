@@ -3,6 +3,7 @@ namespace Code.Movement
 {
     public class Locomotion : MonoBehaviour
     {
+        [SerializeField] private Transform _yawTransform;
         [SerializeField] private float _speed;
         [SerializeField] private float _accel;
         [SerializeField] private float _friction;
@@ -27,7 +28,7 @@ namespace Code.Movement
         private void FixedUpdate()
         {
             _handler.Refresh();
-            Vector3 wishDir = (transform.right * _handler.MoveInput.x + transform.forward * _handler.MoveInput.y).normalized;
+            Vector3 wishDir = (_yawTransform.right * _handler.MoveInput.x + _yawTransform.forward * _handler.MoveInput.y).normalized;
 
             Friction(ref _velocity, _friction);
             Accelerate(wishDir, _speed, _accel);
@@ -63,5 +64,6 @@ namespace Code.Movement
             velocity *= Mathf.Max(0f, speed - drop) / speed;
 
         }
+
     }
 }

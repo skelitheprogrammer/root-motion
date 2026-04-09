@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-namespace Code
+namespace Code.Rigging.Utils
 {
     [DisallowMultipleComponent]
     [AddComponentMenu("Animation Rigging/Extract Transform Constraint")]

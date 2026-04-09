@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Animations.Rigging;
-namespace Code
+namespace Code.Rigging.Utils
 {
     public struct ExtractTransformConstraintJob : IWeightedAnimationJob
     {

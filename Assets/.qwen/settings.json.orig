@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(G:\\Projects\\EFT animation system\\root-motion/**)"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(G:\\Projects\\EFT animation system\\root-motion/**)",
+      "Read(G:\\Projects\\EFT animation system\\root-motion\\Packages/**)",
+      "WebSearch"
+    ]
+  },
+  "$version": 3
+}
