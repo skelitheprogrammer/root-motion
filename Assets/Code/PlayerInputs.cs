@@ -124,7 +124,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""c13dba20-71c8-4be8-abab-78d1b77749a5"",
                     ""expectedControlType"": ""Analog"",
-                    ""processors"": """",
+                    ""processors"": ""Scale(factor=0.002)"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 }

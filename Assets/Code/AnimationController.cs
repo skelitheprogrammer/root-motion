@@ -9,6 +9,7 @@ namespace Code
         private PlayerInputHandler _inputs;
         private BodyRotation _bodyRotation;
         private float _currentStance;
+        private float _scrollBuffer;
 
         private static readonly int SPEED_HASH = Animator.StringToHash("Speed");
         private static readonly int STANCE_HASH = Animator.StringToHash("Stance");
@@ -47,16 +48,12 @@ namespace Code
             _animator.SetFloat(TURN_ANGLE_HASH, delta);
         }
 
-        private void UpdateStanceParameter(float stanceDelta, bool wantsCrouch)
+        private void UpdateStanceParameter(float rawScrollDelta, bool wantsCrouch)
         {
+            float delta = rawScrollDelta;
+            delta = Mathf.Clamp(delta, -0.05f, 0.05f);
 
-            // float targetStance = wantsCrouch ? 1f : 0f;
-            // _currentStance = Mathf.MoveTowards(_currentStance, targetStance, _stanceDamping * Time.deltaTime);
-            // _animator.SetFloat(STANCE_HASH, _currentStance, _stanceDamping, Time.deltaTime);
-
-            if (Mathf.Abs(stanceDelta) < 0.001f) return;
-            const float stepSize = 0.5f;
-            _currentStance = Mathf.Round(_currentStance / stepSize) * stepSize;
+            _currentStance += delta;
             _currentStance = Mathf.Clamp01(_currentStance);
             _animator.SetFloat(STANCE_HASH, _currentStance);
         }
