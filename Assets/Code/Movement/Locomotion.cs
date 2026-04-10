@@ -34,6 +34,11 @@ namespace Code.Movement
             Accelerate(wishDir, _speed, _accel);
 
             _controller.Move(_velocity * Time.fixedDeltaTime);
+
+            if (_velocity.sqrMagnitude <= 0.01f)
+            {
+                _velocity = Vector3.zero;
+            }
         }
 
         private void Accelerate(Vector3 wishDir, float wishSpeed, float accel)
