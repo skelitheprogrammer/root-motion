@@ -3,77 +3,107 @@ namespace Code.Movement
 {
     public class BodyRotation : MonoBehaviour
     {
-        [SerializeField] private Transform _cameraYawPivot;
-        [SerializeField] private PlayerInputHandler _inputs;
+        [SerializeField] private PlayerInputHandler _inputHandler;
+        [SerializeField] private Transform _cameraTransform;
+        [SerializeField] private Transform _bodyTransform;
 
-        [SerializeField] private float _enterThreshold = 90f;
-        [SerializeField] private float _rotationTime = 0.25f;
-        [SerializeField] private float _completionDeadzone = 1.5f;
-        [SerializeField] private float _movementInputDeadzone = 0.01f;
+        [Range(0.08f, 0.25f)]
+        [SerializeField] private float _smoothTime = 0.15f;
+        
+        [SerializeField] private float _movingTurnRate = 140f;
+        [SerializeField] private float _idleTurnRate = 60f;
 
-        private float _cameraWorldYaw;
-        private float _bodyWorldYaw;
-        private bool _isInterpolating;
+        [Range(5f, 30f)]
+        [SerializeField] private float _movingEnterThreshold = 12f;
 
-        public float Threshold => _enterThreshold;
+        [Range(2f, 15f)]
+        [SerializeField] private float _movingExitThreshold = 6f;
 
-        private void Start()
+        [Range(15f, 90f)]
+        [SerializeField] private float _idleEnterThreshold = 25f;
+
+        [Range(5f, 20f)]
+        [SerializeField] private float _idleExitThreshold = 12f;
+
+        private float _currentBodyYaw;
+        private float _rotationVelocity;
+        private bool _isRotating;
+
+        public float AngleDelta { get; private set; }
+
+        public float Threshold => _idleEnterThreshold;
+
+        public bool IsRotating { get; private set; }
+
+        public bool IsMoving { get; private set; }
+
+        private void Awake()
         {
-            _bodyWorldYaw = transform.eulerAngles.y;
-            _cameraWorldYaw = _bodyWorldYaw;
+            _currentBodyYaw = _bodyTransform.eulerAngles.y;
         }
 
         private void Update()
         {
-            ProcessYawInput(_inputs.LookInput.x, Time.deltaTime, _inputs.MoveInput.sqrMagnitude);
+            UpdateRotation();
         }
 
-        private void ProcessYawInput(float inputDelta, float deltaTime, float movementInputMagnitude = 0f)
+        private void UpdateRotation()
         {
-            _cameraWorldYaw += inputDelta;
+            Vector2 moveInput = _inputHandler.MoveInput;
+            IsMoving = moveInput.sqrMagnitude > 0.01f;
 
-            bool isMoving = movementInputMagnitude > _movementInputDeadzone;
-            float delta = Mathf.DeltaAngle(_bodyWorldYaw, _cameraWorldYaw);
+            float targetYaw = _currentBodyYaw;
+            float enterThreshold, exitThreshold, turnRate;
 
-            if (isMoving)
+            if (IsMoving)
             {
-                _bodyWorldYaw = _cameraWorldYaw;
-                _isInterpolating = false;
+                Vector3 camF = Vector3.ProjectOnPlane(_cameraTransform.forward, Vector3.up);
+                Vector3 camR = Vector3.ProjectOnPlane(_cameraTransform.right, Vector3.up);
+                Vector3 moveDir = camF * moveInput.y + camR * moveInput.x;
+
+                if (moveDir.sqrMagnitude > 0.001f)
+                {
+                    targetYaw = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg;
+                }
+
+                enterThreshold = _movingEnterThreshold;
+                exitThreshold = _movingExitThreshold;
+                turnRate = _movingTurnRate;
             }
             else
             {
-                if (!_isInterpolating && Mathf.Abs(delta) > _enterThreshold)
+                Vector3 camF = Vector3.ProjectOnPlane(_cameraTransform.forward, Vector3.up);
+                if (camF.sqrMagnitude > 0.001f)
                 {
-                    _isInterpolating = true;
+                    targetYaw = Mathf.Atan2(camF.x, camF.z) * Mathf.Rad2Deg;
                 }
 
-                if (_isInterpolating)
-                {
-                    float requiredSpeed = Mathf.Abs(delta) / _rotationTime;
-                    _bodyWorldYaw = Mathf.MoveTowardsAngle(_bodyWorldYaw, _cameraWorldYaw, requiredSpeed * deltaTime);
-
-                    if (Mathf.Abs(Mathf.DeltaAngle(_bodyWorldYaw, _cameraWorldYaw)) < _completionDeadzone)
-                    {
-                        _bodyWorldYaw = _cameraWorldYaw;
-                        _isInterpolating = false;
-                    }
-                }
+                enterThreshold = _idleEnterThreshold;
+                exitThreshold = _idleExitThreshold;
+                turnRate = _idleTurnRate;
             }
 
-            transform.rotation = Quaternion.Euler(0f, _bodyWorldYaw % 360f, 0f);
+            AngleDelta = Mathf.DeltaAngle(_currentBodyYaw, targetYaw);
 
-            float localYawOffset = _cameraWorldYaw - _bodyWorldYaw;
-            _cameraYawPivot.localRotation = Quaternion.Euler(0f, localYawOffset, 0f);
+            bool shouldRotate = Mathf.Abs(AngleDelta) > enterThreshold || _isRotating && Mathf.Abs(AngleDelta) > exitThreshold;
 
-            if (Mathf.Abs(_cameraWorldYaw) > 10000f)
+            _isRotating = shouldRotate;
+            IsRotating = _isRotating;
+
+            if (_isRotating)
             {
-                _cameraWorldYaw %= 360f;
-                _bodyWorldYaw %= 360f;
+                _currentBodyYaw = Mathf.SmoothDampAngle(
+                    _currentBodyYaw, targetYaw, ref _rotationVelocity,
+                    _smoothTime, turnRate, Time.deltaTime
+                );
             }
+            else
+            {
+                _rotationVelocity = 0f;
+            }
+
+            Vector3 euler = _bodyTransform.eulerAngles;
+            _bodyTransform.rotation = Quaternion.Euler(euler.x, _currentBodyYaw, euler.z);
         }
-
-        public float CameraWorldYaw => _cameraWorldYaw;
-
-        public float AngleDelta => Mathf.DeltaAngle(_bodyWorldYaw, _cameraWorldYaw);
     }
 }
