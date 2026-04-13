@@ -9,7 +9,7 @@ namespace Code.Movement
 
         [Range(0.08f, 0.25f)]
         [SerializeField] private float _smoothTime = 0.15f;
-        
+
         [SerializeField] private float _movingTurnRate = 140f;
         [SerializeField] private float _idleTurnRate = 60f;
 
@@ -30,6 +30,8 @@ namespace Code.Movement
         private bool _isRotating;
 
         public float AngleDelta { get; private set; }
+
+        public float AngleVelocity => _rotationVelocity;
 
         public float Threshold => _idleEnterThreshold;
 

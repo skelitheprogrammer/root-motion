@@ -1829,8 +1829,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 4
-    m_ConditionEvent: TurnAngle
+  - m_ConditionMode: 1
+    m_ConditionEvent: TurnLeft
     m_EventTreshold: -0.99
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5674491484378819240}
@@ -1854,8 +1854,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 3
-    m_ConditionEvent: TurnAngle
+  - m_ConditionMode: 1
+    m_ConditionEvent: TurnRight
     m_EventTreshold: 0.99
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7039358282459478465}

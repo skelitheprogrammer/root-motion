@@ -5,6 +5,7 @@ namespace Code
     public class AnimationController : MonoBehaviour
     {
         [SerializeField] private Animator _animator;
+        [SerializeField] private Transform _bodyTransform;
         private Locomotion _locomotion;
         private PlayerInputHandler _inputs;
         private BodyRotation _bodyRotation;
@@ -31,34 +32,43 @@ namespace Code
             _animator.ResetTrigger(TURN_LEFT_HASH);
             _animator.ResetTrigger(TURN_RIGHT_HASH);
             UpdateStanceParameter(_inputs.StanceDelta, _inputs.CrouchHeld);
-            UpdateMovementParameters(_locomotion.Velocity, _locomotion.Speed);
-            UpdateTurnParameter(_bodyRotation.AngleDelta, _bodyRotation.Threshold);
+            UpdateMovementParameters(_locomotion.Velocity, _locomotion.NormalizedTopSpeed);
+            UpdateTurnParameter(_bodyRotation.AngleVelocity);
         }
 
-        private void UpdateMovementParameters(Vector3 velocity, float speed)
+        private void UpdateMovementParameters(Vector3 worldVelocity, float maxSpeed)
         {
-            Vector3 direction = transform.InverseTransformDirection(velocity.normalized);
-            _animator.SetFloat(FORWARD_HASH, direction.z);
-            _animator.SetFloat(STRAFE_HASH, direction.x);
+            const float DEADZONE = 0.01f;
+    
+            if (worldVelocity.sqrMagnitude < DEADZONE)
+            {
+                _animator.SetFloat(FORWARD_HASH, 0f, 0.1f, Time.deltaTime);
+                _animator.SetFloat(STRAFE_HASH, 0f, 0.1f, Time.deltaTime);
+                _animator.SetFloat(SPEED_HASH, 0f, 0.1f, Time.deltaTime);
+                return;
+            }
 
-            float speedRatio = velocity.magnitude / speed;
+            Transform facingRef = _bodyTransform ?? transform;
+            Vector3 localVel = facingRef.InverseTransformDirection(worldVelocity);
 
-            _animator.SetFloat(SPEED_HASH, speedRatio);
+            Vector2 dir2D = new Vector2(localVel.x, localVel.z).normalized;
+    
+            _animator.SetFloat(FORWARD_HASH, dir2D.y, 0.08f, Time.deltaTime);
+            _animator.SetFloat(STRAFE_HASH, dir2D.x, 0.08f, Time.deltaTime);
+    
+            float speedRatio = Mathf.Clamp01(worldVelocity.magnitude / Mathf.Max(maxSpeed, 0.01f));
+            _animator.SetFloat(SPEED_HASH, speedRatio, 0.1f, Time.deltaTime);
         }
 
-        private void UpdateTurnParameter(float turnAngleDelta, float maxTurnDeltaAngle)
+        private void UpdateTurnParameter(float angularVelocity, float maxAngularVelocity = 180f)
         {
-            float delta = Mathf.Clamp(turnAngleDelta / maxTurnDeltaAngle, -1, 1);
-            if (Mathf.Approximately(delta, 1))
-            {
-                _animator.SetTrigger(TURN_RIGHT_HASH);
-            }
-            else if (Mathf.Approximately(delta, -1))
-            {
-                _animator.SetTrigger(TURN_LEFT_HASH);
-            }
+            float normalized = Mathf.Clamp(angularVelocity / maxAngularVelocity, -1f, 1f);
+            _animator.SetFloat(TURN_ANGLE_HASH, normalized, 0.05f, Time.deltaTime);
 
-            _animator.SetFloat(TURN_ANGLE_HASH, delta);
+            if (Mathf.Abs(normalized) > 0.8f)
+            {
+                _animator.SetTrigger(normalized > 0 ? TURN_RIGHT_HASH : TURN_LEFT_HASH);
+            }
         }
 
         private void UpdateStanceParameter(float rawScrollDelta, bool wantsCrouch)
