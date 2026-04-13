@@ -16,6 +16,8 @@ namespace Code
         private static readonly int FORWARD_HASH = Animator.StringToHash("Forward");
         private static readonly int STRAFE_HASH = Animator.StringToHash("Strafe");
         private static readonly int TURN_ANGLE_HASH = Animator.StringToHash("TurnAngle");
+        private static readonly int TURN_LEFT_HASH = Animator.StringToHash("TurnLeft");
+        private static readonly int TURN_RIGHT_HASH = Animator.StringToHash("TurnRight");
 
         private void Awake()
         {
@@ -26,6 +28,8 @@ namespace Code
 
         private void Update()
         {
+            _animator.ResetTrigger(TURN_LEFT_HASH);
+            _animator.ResetTrigger(TURN_RIGHT_HASH);
             UpdateStanceParameter(_inputs.StanceDelta, _inputs.CrouchHeld);
             UpdateMovementParameters(_locomotion.Velocity, _locomotion.Speed);
             UpdateTurnParameter(_bodyRotation.AngleDelta, _bodyRotation.Threshold);
@@ -45,6 +49,15 @@ namespace Code
         private void UpdateTurnParameter(float turnAngleDelta, float maxTurnDeltaAngle)
         {
             float delta = Mathf.Clamp(turnAngleDelta / maxTurnDeltaAngle, -1, 1);
+            if (Mathf.Approximately(delta, 1))
+            {
+                _animator.SetTrigger(TURN_RIGHT_HASH);
+            }
+            else if (Mathf.Approximately(delta, -1))
+            {
+                _animator.SetTrigger(TURN_LEFT_HASH);
+            }
+
             _animator.SetFloat(TURN_ANGLE_HASH, delta);
         }
 

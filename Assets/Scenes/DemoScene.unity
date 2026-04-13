@@ -23650,10 +23650,10 @@ MonoBehaviour:
   _cameraTransform: {fileID: 2074018870}
   _bodyTransform: {fileID: 2130472620}
   _smoothTime: 0.15
-  _movingTurnRate: 140
-  _idleTurnRate: 90
-  _movingEnterThreshold: 12
-  _movingExitThreshold: 6
+  _movingTurnRate: 540
+  _idleTurnRate: 240
+  _movingEnterThreshold: 5
+  _movingExitThreshold: 2
   _idleEnterThreshold: 90
   _idleExitThreshold: 12
 --- !u!114 &583944235
