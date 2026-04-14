@@ -51,7 +51,7 @@ namespace Code.Movement
 
         private void UpdateRotation()
         {
-            Vector2 moveInput = _inputHandler.MoveInput;
+            Vector2 moveInput = _inputHandler.Current.Move;
             IsMoving = moveInput.sqrMagnitude > 0.01f;
 
             float targetYaw = _currentBodyYaw;

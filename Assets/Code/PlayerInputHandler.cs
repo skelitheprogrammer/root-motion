@@ -1,30 +1,36 @@
 ﻿using UnityEngine;
+
 namespace Code
 {
     public class PlayerInputHandler : MonoBehaviour
     {
-        private PlayerInputs _inputActions;
+        private PlayerInputs _actions;
 
-        public Vector2 MoveInput { get; private set; }
+        public PlayerInputFrame Current { get; private set; }
 
-        public Vector2 LookInput { get; private set; }
-        
-        public bool CrouchHeld { get; private set; }
+        private void Awake() => _actions = new();
+        private void OnEnable() => _actions.Enable();
+        private void OnDisable() => _actions.Disable();
+        private void OnDestroy() => _actions.Dispose();
 
-        public float StanceDelta { get; private set; }
-
-        private void Awake()
+        private void Update()
         {
-            _inputActions = new();
-            _inputActions.Enable();
+            Current = new()
+            {
+                Move = _actions.Player.Move.ReadValue<Vector2>(),
+                Look = _actions.Player.Look.ReadValue<Vector2>(),
+                StanceDelta = _actions.Player.StanceChange.ReadValue<float>(),
+                CrouchHeld = _actions.Player.Crouch.IsPressed()
+            };
         }
+    }
 
-        public void Refresh()
-        {
-            MoveInput = _inputActions.Player.Move.ReadValue<Vector2>();
-            LookInput = _inputActions.Player.Look.ReadValue<Vector2>();
-            StanceDelta = _inputActions.Player.StanceChange.ReadValue<float>();
-            CrouchHeld = _inputActions.Player.Crouch.IsPressed();
-        }
+    // Frame snapshot: plain data, zero behavior
+    public struct PlayerInputFrame
+    {
+        public Vector2 Move;
+        public Vector2 Look;
+        public float StanceDelta;
+        public bool CrouchHeld;
     }
 }

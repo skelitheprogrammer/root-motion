@@ -31,7 +31,7 @@ namespace Code
         {
             _animator.ResetTrigger(TURN_LEFT_HASH);
             _animator.ResetTrigger(TURN_RIGHT_HASH);
-            UpdateStanceParameter(_inputs.StanceDelta, _inputs.CrouchHeld);
+            UpdateStanceParameter(_inputs.Current.StanceDelta, _inputs.Current.CrouchHeld);
             UpdateMovementParameters(_locomotion.Velocity, _locomotion.NormalizedTopSpeed);
             UpdateTurnParameter(_bodyRotation.AngleVelocity);
         }

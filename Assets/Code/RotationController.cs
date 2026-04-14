@@ -25,9 +25,9 @@ namespace Code
 
         private void Update()
         {
-            _yaw += _input.LookInput.x;
+            _yaw += _input.Current.Look.x;
             _yaw %= 360;
-            _pitch += _input.LookInput.y;
+            _pitch += _input.Current.Look.y;
             _pitch = Mathf.Clamp(_pitch, -_maxPitch, _maxPitch);
 
             transform.rotation = Quaternion.Euler(0f, _yaw, 0f);

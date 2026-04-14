@@ -22,7 +22,7 @@ namespace Code
 
         private void Update()
         {
-            _smoothedLook = Vector2.SmoothDamp(_smoothedLook, _inputs.LookInput, ref _lookVelocity, lookSmoothing);
+            _smoothedLook = Vector2.SmoothDamp(_smoothedLook, _inputs.Current.Look, ref _lookVelocity, lookSmoothing);
 
             yawTransform.Rotate(Vector3.up * _smoothedLook.x, Space.World);
 

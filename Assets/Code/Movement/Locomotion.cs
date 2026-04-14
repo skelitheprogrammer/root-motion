@@ -28,9 +28,8 @@ namespace Code.Movement
 
         private void FixedUpdate()
         {
-            _handler.Refresh();
-            Vector3 wishDir = (_yawTransform.right * _handler.MoveInput.x +
-                               _yawTransform.forward * _handler.MoveInput.y).normalized;
+            Vector3 wishDir = (_yawTransform.right * _handler.Current.Move.x +
+                               _yawTransform.forward * _handler.Current.Move.y).normalized;
 
             Friction(ref _velocity, wishDir, _friction);
             Accelerate(wishDir, _speed, _accel);
