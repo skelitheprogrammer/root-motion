@@ -25,7 +25,6 @@ namespace Code
         }
     }
 
-    // Frame snapshot: plain data, zero behavior
     public struct PlayerInputFrame
     {
         public Vector2 Move;
